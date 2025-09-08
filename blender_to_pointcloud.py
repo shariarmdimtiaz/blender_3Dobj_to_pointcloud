@@ -29,3 +29,14 @@ def random_points_in_triangle_3d(v1, v2, v3, uv1, uv2, uv3, density):
     uvs    = w1[:, None] * uv1 + w2[:, None] * uv2 + w3[:, None] * uv3
 
     return sampled_points, uvs
+
+# Find the texture image in the object's material.
+def get_material_texture(obj):
+    if not obj.active_material or not obj.active_material.node_tree:
+        return None
+    
+    nodes = obj.active_material.node_tree.nodes
+    for node in nodes:
+        if node.type == 'TEX_IMAGE' and node.image:
+            return node.image
+    return None
