@@ -40,3 +40,17 @@ def get_material_texture(obj):
         if node.type == 'TEX_IMAGE' and node.image:
             return node.image
     return None
+
+# Find the color from the texture at given UV coordinates.
+def sample_texture(image, uv):
+    if not image or not image.pixels:
+        return (255, 255, 255)  # Default white color
+    
+    width, height = image.size
+    px_x = int(uv[0] * width) % width
+    px_y = int(uv[1] * height) % height
+    pixel_index = (px_y * width + px_x) * 4  # RGBA channels
+    color = image.pixels[pixel_index:pixel_index + 3]
+    return tuple(int(c * 255) for c in color)
+
+
